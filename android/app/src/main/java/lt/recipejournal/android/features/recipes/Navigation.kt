@@ -10,20 +10,15 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import kotlinx.serialization.Serializable
+import lt.recipejournal.android.core.navigation.Destinations
 
-@Serializable
-object RecipesGraph {
-    @Serializable
-    object RecipeList
-}
 
 fun NavGraphBuilder.recipesGraph(
     navController: NavController,
     contentPadding: PaddingValues
 ) {
-    navigation<RecipesGraph>(startDestination = RecipesGraph.RecipeList) {
-        composable<RecipesGraph.RecipeList> {
+    navigation<Destinations.RecipesGraph>(startDestination = Destinations.RecipesGraph.RecipeList) {
+        composable<Destinations.RecipesGraph.RecipeList> {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center

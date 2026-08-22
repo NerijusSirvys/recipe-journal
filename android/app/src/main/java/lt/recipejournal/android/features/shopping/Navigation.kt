@@ -10,20 +10,14 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import kotlinx.serialization.Serializable
-
-@Serializable
-object ShoppingGraph {
-    @Serializable
-    object ShoppingList
-}
+import lt.recipejournal.android.core.navigation.Destinations
 
 fun NavGraphBuilder.shoppingGraph(
     navController: NavController,
     contentPadding: PaddingValues
 ) {
-    navigation<ShoppingGraph>(startDestination = ShoppingGraph.ShoppingList) {
-        composable<ShoppingGraph.ShoppingList> {
+    navigation<Destinations.ShoppingGraph>(startDestination = Destinations.ShoppingGraph.ShoppingList) {
+        composable<Destinations.ShoppingGraph.ShoppingList> {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
