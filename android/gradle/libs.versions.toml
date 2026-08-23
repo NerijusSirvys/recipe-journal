@@ -9,8 +9,16 @@ kotlin = "2.4.10"
 composeBom = "2026.08.00"
 navigation = "2.9.8"
 kotlinSerialization = "2.4.10"
+koin-bom = "4.2.2"
 
 [libraries]
+# DEPENDENCY INJECTION
+koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin-bom" }
+koin-core = { group = "io.insert-koin", name = "koin-core" }
+koin-android = { group = "io.insert-koin", name = "koin-android" }
+koin-compose = { group = "io.insert-koin", name = "koin-compose" }
+koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel" }
+koin-compose-navigation = { group = "io.insert-koin", name = "koin-androidx-compose-navigation" }
 
 # NAVIGATION
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
