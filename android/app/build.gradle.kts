@@ -39,6 +39,7 @@ android {
 dependencies {
     // DEPENDENCY INJECTION
     implementation(platform(libs.koin.bom))
+    implementation(libs.androidx.material3)
     implementation(libs.koin.android)
     implementation(libs.koin.core)
     implementation(libs.koin.compose)
