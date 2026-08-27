@@ -24,13 +24,13 @@ data class BottomNavBarDestination(
 
 val destinations = listOf(
     BottomNavBarDestination(
-        name = R.string.recipes,
+        name = R.string.bottom_nav_recipes_destination,
         icon = R.drawable.book_open_text,
         destinationGraph = Destinations.RecipesGraph
     ),
 
     BottomNavBarDestination(
-        name = R.string.shopping_list,
+        name = R.string.bottom_nav_shopping_list_destination,
         icon = R.drawable.shopping_basket,
         destinationGraph = Destinations.ShoppingGraph
     )

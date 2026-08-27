@@ -11,6 +11,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import lt.recipejournal.android.core.navigation.Destinations
+import lt.recipejournal.android.features.recipes.list.RecipeListScreen
 
 
 fun NavGraphBuilder.recipesGraph(
@@ -23,7 +24,7 @@ fun NavGraphBuilder.recipesGraph(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                Text("Recipe List Screen")
+                RecipeListScreen()
             }
         }
     }
