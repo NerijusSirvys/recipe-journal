@@ -1,5 +1,17 @@
 <resources>
     <string name="app_name">android</string>
-    <string name="recipes">Recipes</string>
-    <string name="shopping_list">Shopping List</string>
+
+    <string name="bottom_nav_recipes_destination">Recipes</string>
+    <string name="bottom_nav_shopping_list_destination">Shopping List</string>
+
+    <string name="recipe_list_search_clear">Recipe list search clear\n</string>
+    <string name="recipe_list_search_placeholder">Search</string>
+
+    <string name="mealCategory_breakfast">Breakfast</string>
+    <string name="mealCategory_lunch">Lunch</string>
+    <string name="mealCategory_dinner">Dinner</string>
+    <string name="mealCategory_dessert">Dessert</string>
+    <string name="mealCategory_snack">Snack</string>
+    <string name="mealCategory_side">Side</string>
+    <string name="mealCategory_all">All</string>
 </resources>
