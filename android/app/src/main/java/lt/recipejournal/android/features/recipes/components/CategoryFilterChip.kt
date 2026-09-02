@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 import lt.recipejournal.android.features.recipes.data.models.MealCategory
 import lt.recipejournal.android.features.recipes.data.models.iconRes
 import lt.recipejournal.android.features.recipes.data.models.stringRes
@@ -44,7 +44,8 @@ fun CategoryFilterChip(
             selected = selected,
             selectedBorderColor = MaterialTheme.colorScheme.primary,
             borderColor = MaterialTheme.colorScheme.outline,
-            selectedBorderWidth = 1.dp
+            selectedBorderWidth = Dp.Hairline,
+            borderWidth = Dp.Hairline
         ),
         colors = FilterChipDefaults.filterChipColors().copy(
             selectedLabelColor = MaterialTheme.colorScheme.primary,

@@ -14,9 +14,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import lt.recipejournal.android.features.recipes.data.RecipeRepository
 import lt.recipejournal.android.features.recipes.data.models.MealCategory
+import java.util.UUID
 
 class RecipeListViewmodel(
-    recipeRepository: RecipeRepository
+    val recipeRepository: RecipeRepository
 ) : ViewModel() {
 
     private val _filterState = MutableStateFlow(RecipeListFilterState())
@@ -41,7 +42,8 @@ class RecipeListViewmodel(
         when (load) {
             is LibraryLoad.Success -> RecipeListUIState(
                 contentState = ContentState.LOADED,
-                recipes = load.summaries,
+                recipes = load.summaries.filter { !it.isFavourite },
+                favourites = load.summaries.filter { it.isFavourite },
                 totalRecipeCount = load.totalCount,
                 filterState = filterState
             )
@@ -62,7 +64,12 @@ class RecipeListViewmodel(
         when (actions) {
             is RecipeListActions.SearchUpdated -> updateSearchTerm(actions.searchTerm)
             is RecipeListActions.ToggleMealCategoryFilter -> updateMealCategoryFilters(actions.category)
+            is RecipeListActions.ToggleFavourite -> toggleFavourite(actions.recipeId)
         }
+    }
+
+    private fun toggleFavourite(recipeId: UUID) {
+        recipeRepository.setFavourite(recipeId)
     }
 
     private fun updateMealCategoryFilters(category: MealCategory?) {
