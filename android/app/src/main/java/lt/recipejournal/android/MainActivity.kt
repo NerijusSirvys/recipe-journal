@@ -1,5 +1,6 @@
 package lt.recipejournal.android
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,11 +23,11 @@ import lt.recipejournal.android.ui.theme.AndroidTheme
 
 
 class MainActivity : ComponentActivity() {
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            
             AndroidTheme {
                 val navController = rememberNavController()
 
