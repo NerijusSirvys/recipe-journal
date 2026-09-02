@@ -4,8 +4,15 @@
     <string name="bottom_nav_recipes_destination">Recipes</string>
     <string name="bottom_nav_shopping_list_destination">Shopping List</string>
 
-    <string name="recipe_list_search_clear">Recipe list search clear\n</string>
-    <string name="recipe_list_search_placeholder">Search</string>
+    <!-- RECIPE LIST SCREEN -->
+    <string name="search_clear">Recipe list search clear\n</string>
+    <string name="search_placeholder">Search</string>
+    <string name="your_favourites">Your Favourites</string>
+    <string name="no_favourites_message">Tap the heart on the recipe to pin it here</string>
+    <string name="your_recipes">Your Recipes</string>
+    <string name="empty_recipe_list_state_message">Looks like nothing in here</string>
+    <string name="recipes">Recipes</string>
+    <string name="found_and_showed">%1$d found - %2$d showed</string>
 
     <string name="mealCategory_breakfast">Breakfast</string>
     <string name="mealCategory_lunch">Lunch</string>
@@ -14,4 +21,6 @@
     <string name="mealCategory_snack">Snack</string>
     <string name="mealCategory_side">Side</string>
     <string name="mealCategory_all">All</string>
+
+    <string name="buttons_filter">Filter</string>
 </resources>
