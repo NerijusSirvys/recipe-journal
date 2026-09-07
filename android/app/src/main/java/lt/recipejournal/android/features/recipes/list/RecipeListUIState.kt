@@ -28,6 +28,7 @@ sealed interface LibraryLoad {
     ) : LibraryLoad
 
     data object Failure : LibraryLoad
+    data object Empty : LibraryLoad
 }
 
 enum class SortBy {
@@ -50,5 +51,5 @@ enum class CookingTime {
 }
 
 enum class ContentState {
-    LOADING, ERROR, LOADED
+    LOADING, ERROR, LOADED, EMPTY
 }

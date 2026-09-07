@@ -12,8 +12,14 @@
     <string name="your_recipes">Your Recipes</string>
     <string name="empty_recipe_list_state_message">Looks like nothing in here</string>
     <string name="recipes">Recipes</string>
-    <string name="found_and_showed">%1$d found - %2$d showed</string>
+    <string name="recipes_found_and_showed">%1$d found - %2$d showed</string>
+    <string name="no_recipes">No recipes yet</string>
+    <string name="no_recipes_supporting_text">Start your collection by creating your own recipe or importing one from a link</string>
     <string name="loading_recipes">Preparing your recipes…</string>
+
+    <!-- BUTTONS -->
+    <string name="btn_create_recipe">Create recipe</string>
+    <string name="btn_import_from_web">Import from web</string>
 
     <string name="mealCategory_breakfast">Breakfast</string>
     <string name="mealCategory_lunch">Lunch</string>
