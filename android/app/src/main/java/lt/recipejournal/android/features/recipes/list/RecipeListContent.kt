@@ -29,6 +29,7 @@ import lt.recipejournal.android.features.recipes.components.EmptyStateMessage
 import lt.recipejournal.android.features.recipes.components.FilterButton
 import lt.recipejournal.android.features.recipes.components.HeroCard
 import lt.recipejournal.android.features.recipes.components.HorizontalRecipeCard
+import lt.recipejournal.android.features.recipes.components.TopBar
 import lt.recipejournal.android.features.recipes.data.models.Cuisine
 import lt.recipejournal.android.features.recipes.data.models.MealCategory
 import lt.recipejournal.android.features.recipes.data.models.RecipeSummary
@@ -47,21 +48,10 @@ fun RecipeListContent(
     Scaffold(
         modifier = modifier,
         topBar = {
-            TopAppBar(
-                title = {
-                    Column {
-                        Text(text = stringResource(R.string.recipes))
-                        Text(
-                            text = stringResource(
-                                R.string.found_and_showed,
-                                state.totalRecipeCount,
-                                state.recipes.size
-                            ),
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    }
-                },
+            TopBar(
+                text = stringResource(R.string.recipes),
+                totalCount = state.totalRecipeCount,
+                showedCount = state.recipes.size
             )
         },
     ) { innerPadding ->
@@ -85,12 +75,12 @@ fun RecipeListContent(
 
                 FilterButton(
                     onClick = {
-                        //Todo("Don't leave this one out")
+                        TODO("Don't leave this one out")
                     }
                 )
             }
             MealCategoryChipRow(state, onAction)
-            Spacer(modifier.height(20.dp))
+            Spacer(modifier.height(15.dp))
             Text(
                 text = stringResource(R.string.your_favourites),
                 style = MaterialTheme.typography.titleLarge,
@@ -105,7 +95,7 @@ fun RecipeListContent(
                 CardCarousel(state, onAction)
             }
 
-            Spacer(modifier.height(20.dp))
+            Spacer(modifier.height(15.dp))
             Text(
                 text = stringResource(R.string.your_recipes),
                 style = MaterialTheme.typography.titleLarge,

@@ -31,7 +31,9 @@ class RecipeRepository {
         }
     )
 
-    fun getRecipeSummaries(): Flow<List<RecipeSummary>> = recipesFlow.asStateFlow()
+    suspend fun getRecipeSummaries(): Flow<List<RecipeSummary>> {
+        return recipesFlow.asStateFlow()
+    }
 
 
     fun getRecipeCount(): Flow<Int> =

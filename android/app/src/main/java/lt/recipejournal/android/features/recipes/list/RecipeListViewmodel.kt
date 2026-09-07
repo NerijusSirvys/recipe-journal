@@ -31,7 +31,11 @@ class RecipeListViewmodel(
                     recipeRepository.getRecipeSummaries(),
                     recipeRepository.getRecipeCount(),
                 ) { summaries, count ->
-                    LibraryLoad.Success(summaries, count) as LibraryLoad
+                    if (summaries.isNotEmpty()) {
+                        LibraryLoad.Success(summaries, count) as LibraryLoad
+                    } else {
+                        LibraryLoad.Empty
+                    }
                 }.catch { emit(LibraryLoad.Failure) }
             }
 
@@ -51,6 +55,10 @@ class RecipeListViewmodel(
             LibraryLoad.Failure -> RecipeListUIState(
                 contentState = ContentState.ERROR,
                 filterState = filterState
+            )
+
+            LibraryLoad.Empty -> RecipeListUIState(
+                contentState = ContentState.EMPTY
             )
         }
     }.stateIn(

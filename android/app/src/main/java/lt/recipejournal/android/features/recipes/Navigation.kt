@@ -24,7 +24,9 @@ fun NavGraphBuilder.recipesGraph(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                RecipeListScreen()
+                RecipeListScreen(
+                    navController = navController
+                )
             }
         }
     }
