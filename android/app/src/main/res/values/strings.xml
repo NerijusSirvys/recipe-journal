@@ -17,6 +17,11 @@
     <string name="no_recipes_supporting_text">Start your collection by creating your own recipe or importing one from a link</string>
     <string name="loading_recipes">Preparing your recipes…</string>
 
+    <string name="buttons_filter">Filter</string>
+    <string name="all">All</string>
+    <string name="filter">Filter</string>
+    <string name="clear_all">Clear All</string>
+
     <!-- BUTTONS -->
     <string name="btn_create_recipe">Create recipe</string>
     <string name="btn_import_from_web">Import from web</string>
@@ -29,5 +34,33 @@
     <string name="mealCategory_side">Side</string>
     <string name="mealCategory_all">All</string>
 
-    <string name="buttons_filter">Filter</string>
+    <string name="cuisine">Cuisine</string>
+    <string name="cuisine_italian">Italian</string>
+    <string name="cuisine_chinese">Chinese</string>
+    <string name="cuisine_japanese">Japanese</string>
+    <string name="cuisine_mexican">Mexican</string>
+    <string name="cuisine_indian">Indian</string>
+    <string name="cuisine_thai">Thai</string>
+    <string name="cuisine_french">French</string>
+    <string name="cuisine_spanish">Spanish</string>
+    <string name="cuisine_greek">Greek</string>
+    <string name="cuisine_turkish">Turkish</string>
+    <string name="cuisine_lithuanian">Lithuanian</string>
+    <string name="cuisine_eastern_european">Eastern European</string>
+    <string name="cuisine_american">American</string>
+
+    <string name="cooking_time">Cooking time</string>
+    <string name="cooking_time_under30">Under 30 min</string>
+    <string name="cooking_time_30_to_60_min">30 - 60 min</string>
+    <string name="cooking_time_1_to_2_h">1 - 2 hours</string>
+    <string name="cooking_time_over_2_h">Over 2 hours</string>
+
+    <string name="source">Source</string>
+    <string name="source_imported">Imported</string>
+    <string name="source_created">Created by me</string>
+
+    <string name="sort_by">Sort by</string>
+    <string name="sort_by_recent">Recently added</string>
+    <string name="sort_by_name">Name (A - Z)</string>
+    <string name="sort_by_total_time">Total time</string>
 </resources>

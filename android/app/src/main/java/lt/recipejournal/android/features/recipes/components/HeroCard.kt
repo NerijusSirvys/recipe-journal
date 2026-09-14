@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -36,6 +37,7 @@ import coil3.compose.AsyncImage
 import lt.recipejournal.android.R
 import lt.recipejournal.android.features.recipes.data.models.Cuisine
 import lt.recipejournal.android.features.recipes.data.models.MealCategory
+import lt.recipejournal.android.features.recipes.data.models.stringRes
 import lt.recipejournal.android.features.recipes.data.models.tagColors
 import lt.recipejournal.android.ui.theme.AndroidTheme
 
@@ -174,7 +176,7 @@ private fun Preview() {
                     name = "Recipe 1 ",
                     isFavourite = true,
                     mealCategory = MealCategory.entries.random(),
-                    cuisine = Cuisine.entries.random().name,
+                    cuisine = stringResource(Cuisine.entries.random().stringRes),
                     servings = 3,
                     cookingTimeInMinutes = 25,
                     ingredientCount = 15,
@@ -187,7 +189,7 @@ private fun Preview() {
                     name = "Supper very long recipe name about nothing and some more",
                     isFavourite = false,
                     mealCategory = MealCategory.entries.random(),
-                    cuisine = Cuisine.entries.random().name,
+                    cuisine = stringResource(Cuisine.entries.random().stringRes),
                     servings = 3,
                     cookingTimeInMinutes = 25,
                     ingredientCount = 15,

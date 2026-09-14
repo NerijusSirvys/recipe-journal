@@ -4,8 +4,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.update
 import lt.recipejournal.android.features.recipes.data.models.Cuisine
 import lt.recipejournal.android.features.recipes.data.models.MealCategory
@@ -19,7 +19,7 @@ class RecipeRepository {
         List(5) { index ->
             RecipeSummary(
                 id = UUID.randomUUID(),
-                name = "Greek Chicken Salad",
+                name = "Recipe ${index + 1}",
                 isFavourite = false,
                 mealCategory = MealCategory.entries.random(),
                 cuisine = Cuisine.entries.random(),
@@ -35,9 +35,13 @@ class RecipeRepository {
         return recipesFlow.asStateFlow()
     }
 
+    fun getAvailableCuisineFilters(): Flow<List<Cuisine>> {
+        return recipesFlow.mapLatest { it.map { r -> r.cuisine } }.distinctUntilChanged()
+    }
 
-    fun getRecipeCount(): Flow<Int> =
-        recipesFlow.map { it.size }.distinctUntilChanged()
+    fun getRecipeCount(): Flow<Int> {
+        return recipesFlow.map { it.size }.distinctUntilChanged()
+    }
 
 
     fun setFavourite(id: UUID) {
