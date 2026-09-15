@@ -43,7 +43,7 @@ fun FilterButton(
                 modifier = Modifier.size(18.dp)
             )
             Text(
-                text = stringResource(R.string.buttons_filter),
+                text = stringResource(R.string.btn_filter),
                 style = MaterialTheme.typography.bodyMedium
             )
         }

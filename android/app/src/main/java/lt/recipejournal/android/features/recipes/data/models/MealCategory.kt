@@ -31,12 +31,12 @@ val MealCategory.tagColors: MealTagColorRole
 @get:StringRes
 val MealCategory.stringRes: Int
     get() = when (this) {
-        MealCategory.BREAKFAST -> R.string.mealCategory_breakfast
-        MealCategory.LUNCH -> R.string.mealCategory_lunch
-        MealCategory.DINNER -> R.string.mealCategory_dinner
-        MealCategory.DESSERT -> R.string.mealCategory_dessert
-        MealCategory.SNACK -> R.string.mealCategory_snack
-        MealCategory.SIDE -> R.string.mealCategory_side
+        MealCategory.BREAKFAST -> R.string.meal_category_breakfast
+        MealCategory.LUNCH -> R.string.meal_category_lunch
+        MealCategory.DINNER -> R.string.meal_category_dinner
+        MealCategory.DESSERT -> R.string.meal_category_dessert
+        MealCategory.SNACK -> R.string.meal_category_snack
+        MealCategory.SIDE -> R.string.meal_category_side
     }
 
 @get:DrawableRes
