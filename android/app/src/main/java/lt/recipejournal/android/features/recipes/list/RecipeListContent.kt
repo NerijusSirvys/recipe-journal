@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -45,6 +46,7 @@ import lt.recipejournal.android.features.recipes.data.models.Source
 import lt.recipejournal.android.features.recipes.data.models.iconRes
 import lt.recipejournal.android.features.recipes.data.models.stringRes
 import lt.recipejournal.android.ui.theme.AndroidTheme
+import java.time.Instant
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -227,7 +229,7 @@ fun BottomSheet(
                 },
                 shape = MaterialTheme.shapes.small
             ) {
-                Text("Filter")
+                Text(pluralStringResource(R.plurals.show_recipes, state.recipes.size, state.recipes.size))
             }
         }
     }
@@ -236,11 +238,16 @@ fun BottomSheet(
 @Composable
 private fun SourceFilterSection(
     state: RecipeListUIState,
-    onFilterClick: (Source) -> Unit
+    onFilterClick: (Source?) -> Unit
 ) {
     Column {
         SectionLabel(text = stringResource(R.string.source))
         FlowRow {
+            FilterChipItem(
+                selected = state.filterState.selectedSourceFilters.isEmpty(),
+                text = stringResource(R.string.all),
+                onClick = { onFilterClick(null) }
+            )
             state.availableSourceFilters.forEach { source ->
                 FilterChipItem(
                     selected = state.filterState.selectedSourceFilters.contains(
@@ -281,11 +288,16 @@ private fun SortByFilterSection(
 @Composable
 private fun CuisineFilterSection(
     state: RecipeListUIState,
-    onFilterClick: (Cuisine) -> Unit
+    onFilterClick: (Cuisine?) -> Unit
 ) {
     Column {
         SectionLabel(text = stringResource(R.string.cuisine))
         FlowRow {
+            FilterChipItem(
+                selected = state.filterState.selectedCuisines.isEmpty(),
+                text = stringResource(R.string.all),
+                onClick = { onFilterClick(null) }
+            )
             state.availableCuisineFilters.forEach { cuisine ->
                 FilterChipItem(
                     selected = state.filterState.selectedCuisines.contains(
@@ -304,11 +316,16 @@ private fun CuisineFilterSection(
 @Composable
 private fun CookingTimeFilterSection(
     state: RecipeListUIState,
-    onFilterClick: (CookingTime) -> Unit
+    onFilterClick: (CookingTime?) -> Unit
 ) {
     Column {
         SectionLabel(text = stringResource(R.string.cooking_time))
         FlowRow {
+            FilterChipItem(
+                selected = state.filterState.selectedCookingTimeFilters.isEmpty(),
+                text = stringResource(R.string.all),
+                onClick = { onFilterClick(null) }
+            )
             state.availableCookingTimeFilters.forEach { cookingTime ->
                 FilterChipItem(
                     selected = state.filterState.selectedCookingTimeFilters.contains(
@@ -335,7 +352,7 @@ private fun MealCategoryChipRow(
             CategoryFilterChip(
                 selected = state.filterState.selectedCategories.isEmpty(),
                 onClick = { onAction(RecipeListActions.ToggleMealCategoryFilter(null)) },
-                label = R.string.mealCategory_all,
+                label = R.string.meal_category_all,
                 iconId = R.drawable.layout_grid
             )
         }
@@ -401,7 +418,8 @@ private fun RecipeListScreenPreview() {
                         servings = 3,
                         cookTime = java.time.Duration.ofMinutes(25),
                         ingredientCount = 15,
-                        image = "some"
+                        image = "some",
+                        createdOn = Instant.now()
                     )
                 }
             )

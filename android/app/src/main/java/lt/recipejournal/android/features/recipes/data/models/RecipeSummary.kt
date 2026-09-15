@@ -1,7 +1,7 @@
 package lt.recipejournal.android.features.recipes.data.models
 
-import java.net.URI
 import java.time.Duration
+import java.time.Instant
 import java.util.UUID
 
 data class RecipeSummary(
@@ -13,5 +13,6 @@ data class RecipeSummary(
     val cuisine: Cuisine,
     val servings: Int,
     val cookTime: Duration,
-    val ingredientCount: Int
+    val ingredientCount: Int,
+    val createdOn: Instant
 )

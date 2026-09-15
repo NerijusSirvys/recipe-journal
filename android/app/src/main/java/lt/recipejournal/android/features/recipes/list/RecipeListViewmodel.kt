@@ -3,13 +3,17 @@ package lt.recipejournal.android.features.recipes.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import lt.recipejournal.android.features.recipes.data.RecipeRepository
@@ -21,23 +25,36 @@ import lt.recipejournal.android.features.recipes.data.models.Source
 import java.util.UUID
 
 class RecipeListViewmodel(
-    val recipeRepository: RecipeRepository
+    private val recipeRepository: RecipeRepository
 ) : ViewModel() {
 
     private val _filterState = MutableStateFlow(RecipeListFilterState())
     private val _retryTrigger = MutableStateFlow(0)
     private val _isFilterSheetVisible = MutableStateFlow(false)
 
+    @OptIn(FlowPreview::class)
+    private val _debounceSearch = _filterState
+        .map { it.searchInput }
+        .distinctUntilChanged()
+        .debounce(300)
+
+    private val _activeFilters =
+        combine(_filterState, _debounceSearch) { filterState, debounceSearch ->
+            filterState.copy(
+                searchInput = debounceSearch.trim().lowercase()
+            )
+        }.distinctUntilChanged()
+
     @OptIn(ExperimentalCoroutinesApi::class)
     private val _libraryLoad: Flow<LibraryLoad> =
-        combine(_filterState, _retryTrigger) { filters, _ -> filters }
+        combine(_activeFilters, _retryTrigger) { filters, _ -> filters }
             .flatMapLatest { filters ->
                 combine(
-                    recipeRepository.getRecipeSummaries(),
+                    recipeRepository.getRecipeSummaries(filters),
                     recipeRepository.getRecipeCount(),
                     recipeRepository.getAvailableCuisineFilters()
                 ) { summaries, count, cuisineFilters ->
-                    if (summaries.isNotEmpty()) {
+                    if (summaries.isNotEmpty() || count > 0) {
                         LibraryLoad.Success(summaries, count, cuisineFilters) as LibraryLoad
                     } else {
                         LibraryLoad.Empty
@@ -53,16 +70,15 @@ class RecipeListViewmodel(
 
         when (load) {
             is LibraryLoad.Success -> {
-                val cuisineFilters = load.cuisineFilters.toMutableList()
-                cuisineFilters.add(0, Cuisine.ALL)
+                val (favourites, recipes) = load.summaries.partition { it.isFavourite }
                 RecipeListUIState(
                     contentState = ContentState.LOADED,
-                    recipes = load.summaries.filter { !it.isFavourite },
-                    favourites = load.summaries.filter { it.isFavourite },
+                    recipes = recipes,
+                    favourites = favourites,
                     totalRecipeCount = load.totalCount,
                     filterState = filterState,
                     showFilterBottomSheet = isFilterSheetVisible,
-                    availableCuisineFilters = cuisineFilters.toSet(),
+                    availableCuisineFilters = load.cuisineFilters.toSet(),
                     availableSourceFilters = Source.entries.toSet(),
                     availableSortByFilter = SortBy.entries.toSet(),
                     availableCookingTimeFilters = CookingTime.entries.toSet()
@@ -103,9 +119,10 @@ class RecipeListViewmodel(
     private fun resetFilters() {
         _filterState.update {
             it.copy(
-                selectedCuisines = setOf(Cuisine.ALL),
-                selectedCookingTimeFilters = setOf(CookingTime.ALL),
-                selectedSourceFilters = setOf(Source.ALL),
+                selectedCuisines = emptySet(),
+                selectedCookingTimeFilters = emptySet(),
+                selectedSourceFilters = emptySet(),
+                selectedCategories = emptySet(),
                 sortBy = SortBy.RECENTLY_ADDED
             )
         }
@@ -121,64 +138,26 @@ class RecipeListViewmodel(
         }
     }
 
-    private fun toggleSourceFilter(source: Source) {
-        _filterState.update {
-            if (source == Source.ALL) {
-                it.copy(selectedSourceFilters = setOf(Source.ALL))
-            } else {
-                val newFilters = if (it.selectedSourceFilters.contains(source)) {
-                    it.selectedSourceFilters - source
-                } else {
-                    it.selectedSourceFilters + source
-                } - Source.ALL
+    private fun toggleCuisineFilter(cuisine: Cuisine?) {
+        _filterState.update { it.copy(selectedCuisines = it.selectedCuisines.toggle(cuisine)) }
+    }
 
-                if (newFilters.isEmpty()) {
-                    it.copy(selectedSourceFilters = setOf(Source.ALL))
-                } else {
-                    it.copy(selectedSourceFilters = newFilters)
-                }
-            }
+    private fun toggleCookingTimeFilter(cookingTime: CookingTime?) {
+        _filterState.update {
+            it.copy(
+                selectedCookingTimeFilters = it.selectedCookingTimeFilters.toggle(
+                    cookingTime
+                )
+            )
         }
     }
 
-    private fun toggleCookingTimeFilter(cookingTime: CookingTime) {
-        _filterState.update {
-            if (cookingTime == CookingTime.ALL) {
-                it.copy(selectedCookingTimeFilters = setOf(CookingTime.ALL))
-            } else {
-                val newFilters = if (it.selectedCookingTimeFilters.contains(cookingTime)) {
-                    it.selectedCookingTimeFilters - cookingTime
-                } else {
-                    it.selectedCookingTimeFilters + cookingTime
-                } - CookingTime.ALL
-
-                if (newFilters.isEmpty()) {
-                    it.copy(selectedCookingTimeFilters = setOf(CookingTime.ALL))
-                } else {
-                    it.copy(selectedCookingTimeFilters = newFilters)
-                }
-            }
-        }
+    private fun toggleSourceFilter(source: Source?) {
+        _filterState.update { it.copy(selectedSourceFilters = it.selectedSourceFilters.toggle(source)) }
     }
 
-    private fun toggleCuisineFilter(cuisine: Cuisine) {
-        _filterState.update {
-            if (cuisine == Cuisine.ALL) {
-                it.copy(selectedCuisines = setOf(Cuisine.ALL))
-            } else {
-                val newFilters = if (it.selectedCuisines.contains(cuisine)) {
-                    it.selectedCuisines - cuisine
-                } else {
-                    it.selectedCuisines + cuisine
-                } - Cuisine.ALL
-
-                if (newFilters.isEmpty()) {
-                    it.copy(selectedCuisines = setOf(Cuisine.ALL))
-                } else {
-                    it.copy(selectedCuisines = newFilters)
-                }
-            }
-        }
+    private fun updateMealCategoryFilters(category: MealCategory?) {
+        _filterState.update { it.copy(selectedCategories = it.selectedCategories.toggle(category)) }
     }
 
     private fun showFilterBottomSheet(show: Boolean) {
@@ -189,23 +168,15 @@ class RecipeListViewmodel(
         recipeRepository.setFavourite(recipeId)
     }
 
-    private fun updateMealCategoryFilters(category: MealCategory?) {
-        _filterState.update {
-            if (category == null) {
-                it.copy(selectedCategories = emptySet())
-            } else {
-                if (it.selectedCategories.contains(category)) {
-                    it.copy(selectedCategories = it.selectedCategories - category)
-                } else {
-                    it.copy(selectedCategories = it.selectedCategories + category)
-                }
-            }
-        }
-    }
-
     private fun updateSearchTerm(value: String) {
         _filterState.update {
             it.copy(searchInput = value)
         }
+    }
+
+    private fun <T> Set<T>.toggle(item: T?): Set<T> = when {
+        item == null -> emptySet()
+        contains(item) -> this - item
+        else -> this + item
     }
 }

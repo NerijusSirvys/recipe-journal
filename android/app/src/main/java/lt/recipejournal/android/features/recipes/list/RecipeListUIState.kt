@@ -1,5 +1,6 @@
 package lt.recipejournal.android.features.recipes.list
 
+import androidx.compose.runtime.Immutable
 import lt.recipejournal.android.features.recipes.data.models.CookingTime
 import lt.recipejournal.android.features.recipes.data.models.Cuisine
 import lt.recipejournal.android.features.recipes.data.models.MealCategory
@@ -7,6 +8,7 @@ import lt.recipejournal.android.features.recipes.data.models.RecipeSummary
 import lt.recipejournal.android.features.recipes.data.models.SortBy
 import lt.recipejournal.android.features.recipes.data.models.Source
 
+@Immutable
 data class RecipeListUIState(
     val contentState: ContentState = ContentState.LOADING,
     val recipes: List<RecipeSummary> = emptyList(),
@@ -23,9 +25,9 @@ data class RecipeListUIState(
 data class RecipeListFilterState(
     val searchInput: String = "",
     val selectedCategories: Set<MealCategory> = emptySet(),
-    val selectedCuisines: Set<Cuisine> = setOf(Cuisine.ALL),
-    val selectedCookingTimeFilters: Set<CookingTime> = setOf(CookingTime.ALL),
-    val selectedSourceFilters: Set<Source> = setOf(Source.ALL),
+    val selectedCuisines: Set<Cuisine> = emptySet(),
+    val selectedCookingTimeFilters: Set<CookingTime> = emptySet(),
+    val selectedSourceFilters: Set<Source> = emptySet(),
     val sortBy: SortBy = SortBy.RECENTLY_ADDED
 )
 

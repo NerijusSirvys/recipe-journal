@@ -4,7 +4,6 @@ import androidx.annotation.StringRes
 import lt.recipejournal.android.R
 
 enum class Cuisine {
-    ALL,
     ITALIAN,
     CHINESE,
     JAPANESE,
@@ -23,7 +22,6 @@ enum class Cuisine {
 @get:StringRes
 val Cuisine.stringRes: Int
     get() = when (this) {
-        Cuisine.ALL -> R.string.all
         Cuisine.ITALIAN -> R.string.cuisine_italian
         Cuisine.CHINESE -> R.string.cuisine_chinese
         Cuisine.JAPANESE -> R.string.cuisine_japanese
