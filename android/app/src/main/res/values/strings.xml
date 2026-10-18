@@ -6,7 +6,9 @@
 
     <!-- Common Actions & Buttons -->
     <string name="btn_filter">Filter</string>
+    <string name="btn_add_recipe">Add Recipe</string>
     <string name="btn_create_recipe">Create recipe</string>
+    <string name="btn_write_your_own">Write your own</string>
     <string name="btn_import_from_web">Import from web</string>
     <string name="all">All</string>
     <string name="filter">Filter</string>

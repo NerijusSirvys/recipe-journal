@@ -113,6 +113,8 @@ class RecipeListViewmodel(
             is RecipeListActions.ToggleSortByFilter -> toggleSortByFilter(actions.sortBy)
             RecipeListActions.ShowFilteredRecipes -> showFilteredRecipes()
             RecipeListActions.ResetFilters -> resetFilters()
+            RecipeListActions.CreateRecipe -> {}
+            RecipeListActions.ImportFromWeb -> {}
         }
     }
 

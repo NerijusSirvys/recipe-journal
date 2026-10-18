@@ -46,6 +46,7 @@ import lt.recipejournal.android.features.recipes.data.models.Source
 import lt.recipejournal.android.features.recipes.data.models.iconRes
 import lt.recipejournal.android.features.recipes.data.models.stringRes
 import lt.recipejournal.android.ui.theme.AndroidTheme
+import lt.recipejournal.android.features.recipes.components.AddRecipeSpeedDialFab
 import java.time.Instant
 import java.util.UUID
 
@@ -65,6 +66,12 @@ fun RecipeListContent(
                 showedCount = state.recipes.size
             )
         },
+        floatingActionButton = {
+            AddRecipeSpeedDialFab(
+                onWriteYourOwnClick = { onAction(RecipeListActions.CreateRecipe) },
+                onImportFromWebClick = { onAction(RecipeListActions.ImportFromWeb) }
+            )
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -89,7 +96,7 @@ fun RecipeListContent(
                 )
             }
             MealCategoryChipRow(state, onAction)
-            Spacer(modifier.height(15.dp))
+            Spacer(Modifier.height(15.dp))
             Text(
                 text = stringResource(R.string.your_favourites),
                 style = MaterialTheme.typography.titleLarge,
@@ -104,7 +111,7 @@ fun RecipeListContent(
                 CardCarousel(state, onAction)
             }
 
-            Spacer(modifier.height(15.dp))
+            Spacer(Modifier.height(15.dp))
             Text(
                 text = stringResource(R.string.your_recipes),
                 style = MaterialTheme.typography.titleLarge,
@@ -229,7 +236,13 @@ fun BottomSheet(
                 },
                 shape = MaterialTheme.shapes.small
             ) {
-                Text(pluralStringResource(R.plurals.show_recipes, state.recipes.size, state.recipes.size))
+                Text(
+                    pluralStringResource(
+                        R.plurals.show_recipes,
+                        state.recipes.size,
+                        state.recipes.size
+                    )
+                )
             }
         }
     }

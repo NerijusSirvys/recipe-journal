@@ -18,4 +18,6 @@ sealed interface RecipeListActions {
     data class ShowFilterBottomSheet(val show: Boolean) : RecipeListActions
     data object ShowFilteredRecipes : RecipeListActions
     data object ResetFilters : RecipeListActions
+    data object CreateRecipe : RecipeListActions
+    data object ImportFromWeb : RecipeListActions
 }
