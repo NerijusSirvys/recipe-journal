@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -28,7 +27,6 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
@@ -38,7 +36,6 @@ import lt.recipejournal.android.R
 import lt.recipejournal.android.features.recipes.data.models.Cuisine
 import lt.recipejournal.android.features.recipes.data.models.MealCategory
 import lt.recipejournal.android.features.recipes.data.models.stringRes
-import lt.recipejournal.android.features.recipes.data.models.tagColors
 import lt.recipejournal.android.ui.theme.AndroidTheme
 
 @Composable
@@ -81,10 +78,10 @@ fun HeroCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(16f / 5f)
-                        .clip(RoundedCornerShape(8.dp))
+                        .clip(MaterialTheme.shapes.small)
                 )
 
-                Spacer(modifier.height(10.dp))
+                Spacer(Modifier.height(10.dp))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -112,51 +109,18 @@ fun HeroCard(
                     )
                 }
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    MetaLabel(
-                        text = "$cookingTimeInMinutes min",
-                        icon = R.drawable.clock_4
-                    )
-
-                    MetaLabel(
-                        text = "$servings servings",
-                        icon = R.drawable.users
-                    )
-
-                    MetaLabel(
-                        text = "$ingredientCount items",
-                        icon = R.drawable.list_todo
-                    )
-                }
+                RecipeMetaRow(
+                    cookingTimeInMinutes = cookingTimeInMinutes,
+                    servings = servings,
+                    ingredientCount = ingredientCount
+                )
 
                 Spacer(Modifier.height(10.dp))
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    MealCategoryChip(
-                        containerColor = mealCategory.tagColors.container,
-                        textColor = mealCategory.tagColors.onContainer,
-                        borderColor = mealCategory.tagColors.onContainer,
-                        label = mealCategory.name
-                    )
-
-                    Icon(
-                        painter = painterResource(R.drawable.dot),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-
-                    Text(
-                        text = cuisine,
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+                RecipeTagRow(
+                    mealCategory = mealCategory,
+                    cuisine = cuisine
+                )
             }
         }
     }

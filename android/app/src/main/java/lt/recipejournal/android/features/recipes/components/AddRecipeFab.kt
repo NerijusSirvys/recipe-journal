@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -105,7 +104,7 @@ fun AddRecipeSpeedDialFab(
         // Main FAB Container
         Surface(
             onClick = { expanded = !expanded },
-            shape = if (expanded) CircleShape else RoundedCornerShape(16.dp),
+            shape = if (expanded) CircleShape else MaterialTheme.shapes.large,
             color = MaterialTheme.colorScheme.primary,
             shadowElevation = 6.dp,
             modifier = Modifier.size(if (expanded) 56.dp else Dp.Unspecified)
@@ -166,7 +165,7 @@ private fun SpeedDialItem(
     ) {
         Surface(
             onClick = onClick,
-            shape = RoundedCornerShape(12.dp),
+            shape = MaterialTheme.shapes.medium,
             color = MaterialTheme.colorScheme.surfaceContainerLowest,
             shadowElevation = 3.dp
         ) {

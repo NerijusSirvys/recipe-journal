@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.update
 import lt.recipejournal.android.features.recipes.data.models.Cuisine
 import lt.recipejournal.android.features.recipes.data.models.MealCategory
+import lt.recipejournal.android.features.recipes.data.models.RecipeQuery
 import lt.recipejournal.android.features.recipes.data.models.RecipeSummary
 import lt.recipejournal.android.features.recipes.data.models.SortBy
 import lt.recipejournal.android.features.recipes.data.models.matches
-import lt.recipejournal.android.features.recipes.list.RecipeListFilterState
 import java.time.Duration
 import java.time.Instant
 import java.util.UUID
@@ -36,30 +36,30 @@ class RecipeRepository {
         }
     )
 
-    fun getRecipeSummaries(filters: RecipeListFilterState): Flow<List<RecipeSummary>> {
+    fun getRecipeSummaries(query: RecipeQuery): Flow<List<RecipeSummary>> {
         return recipesFlow.map { list ->
             val filtered = list.filter {
-                val matchesSearch = filters.searchInput.isBlank() ||
-                        it.name.contains(filters.searchInput, ignoreCase = true)
+                val matchesSearch = query.searchText.isBlank() ||
+                        it.name.contains(query.searchText, ignoreCase = true)
 
-                val matchesCategory = filters.selectedCategories.isEmpty() ||
-                        it.mealCategory in filters.selectedCategories
+                val matchesCategory = query.categories.isEmpty() ||
+                        it.mealCategory in query.categories
 
-                val matchesCuisine = filters.selectedCuisines.isEmpty() ||
-                        it.cuisine in filters.selectedCuisines
+                val matchesCuisine = query.cuisines.isEmpty() ||
+                        it.cuisine in query.cuisines
 
-                val matchesCookingTime = filters.selectedCookingTimeFilters.isEmpty() ||
-                        filters.selectedCookingTimeFilters.any { cookingTime ->
+                val matchesCookingTime = query.cookingTimes.isEmpty() ||
+                        query.cookingTimes.any { cookingTime ->
                             cookingTime.matches(it.cookTime)
                         }
 
                 matchesSearch && matchesCategory && matchesCuisine && matchesCookingTime
             }
 
-            when (filters.sortBy) {
-                SortBy.RECENTLY_ADDED -> filtered.sortedBy { it.createdOn }
-                SortBy.NAME -> filtered.sortedBy { it.name }
-                SortBy.TIME -> filtered.sortedBy { it.cookTime }
+            when (query.sortBy) {
+                SortBy.RECENTLY_ADDED -> filtered.sortedByDescending { it.createdOn }
+                SortBy.NAME -> filtered.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.name })
+                SortBy.TIME -> filtered.sortedWith(compareBy({ it.cookTime }, { it.name }))
             }
         }
     }

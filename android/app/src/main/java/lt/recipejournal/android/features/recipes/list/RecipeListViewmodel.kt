@@ -20,6 +20,7 @@ import lt.recipejournal.android.features.recipes.data.RecipeRepository
 import lt.recipejournal.android.features.recipes.data.models.CookingTime
 import lt.recipejournal.android.features.recipes.data.models.Cuisine
 import lt.recipejournal.android.features.recipes.data.models.MealCategory
+import lt.recipejournal.android.features.recipes.data.models.RecipeQuery
 import lt.recipejournal.android.features.recipes.data.models.SortBy
 import lt.recipejournal.android.features.recipes.data.models.Source
 import java.util.UUID
@@ -38,19 +39,19 @@ class RecipeListViewmodel(
         .distinctUntilChanged()
         .debounce(300)
 
-    private val _activeFilters =
+    private val _recipeQuery =
         combine(_filterState, _debounceSearch) { filterState, debounceSearch ->
-            filterState.copy(
-                searchInput = debounceSearch.trim().lowercase()
+            filterState.toRecipeQuery(
+                searchText = debounceSearch.trim().lowercase()
             )
         }.distinctUntilChanged()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val _libraryLoad: Flow<LibraryLoad> =
-        combine(_activeFilters, _retryTrigger) { filters, _ -> filters }
-            .flatMapLatest { filters ->
+        combine(_recipeQuery, _retryTrigger) { query, _ -> query }
+            .flatMapLatest { query ->
                 combine(
-                    recipeRepository.getRecipeSummaries(filters),
+                    recipeRepository.getRecipeSummaries(query),
                     recipeRepository.getRecipeCount(),
                     recipeRepository.getAvailableCuisineFilters()
                 ) { summaries, count, cuisineFilters ->
@@ -175,6 +176,16 @@ class RecipeListViewmodel(
             it.copy(searchInput = value)
         }
     }
+
+    // Search text comes in separately because the query uses the debounced value
+    private fun RecipeListFilterState.toRecipeQuery(searchText: String) = RecipeQuery(
+        searchText = searchText,
+        categories = selectedCategories,
+        cuisines = selectedCuisines,
+        cookingTimes = selectedCookingTimeFilters,
+        sources = selectedSourceFilters,
+        sortBy = sortBy
+    )
 
     private fun <T> Set<T>.toggle(item: T?): Set<T> = when {
         item == null -> emptySet()

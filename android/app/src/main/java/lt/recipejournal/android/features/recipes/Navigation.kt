@@ -14,7 +14,8 @@ import lt.recipejournal.android.features.recipes.list.RecipeListScreen
 
 fun NavGraphBuilder.recipesGraph(
     navController: NavController,
-    contentPadding: PaddingValues
+    contentPadding: PaddingValues,
+    reselectCount: () -> Int
 ) {
     navigation<Destinations.RecipesGraph>(startDestination = Destinations.RecipesGraph.RecipeList) {
         composable<Destinations.RecipesGraph.RecipeList> {
@@ -22,7 +23,8 @@ fun NavGraphBuilder.recipesGraph(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(bottom = contentPadding.calculateBottomPadding()),
-                navController = navController
+                navController = navController,
+                reselectCount = reselectCount
             )
         }
     }

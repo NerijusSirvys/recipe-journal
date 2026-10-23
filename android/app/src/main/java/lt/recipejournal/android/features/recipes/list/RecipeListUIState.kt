@@ -19,8 +19,11 @@ data class RecipeListUIState(
     val availableCuisineFilters: Set<Cuisine> = emptySet(),
     val availableCookingTimeFilters: Set<CookingTime> = emptySet(),
     val availableSourceFilters: Set<Source> = emptySet(),
-    val availableSortByFilter: Set<SortBy> = emptySet()
-)
+    val availableSortByFilter: Set<SortBy> = emptySet(),
+) {
+    val filteredRecipeCount: Int get() = recipes.size + favourites.size
+
+}
 
 data class RecipeListFilterState(
     val searchInput: String = "",
