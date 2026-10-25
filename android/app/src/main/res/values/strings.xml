@@ -1,5 +1,93 @@
 <resources>
-    <string name="app_name">android</string>
+    <!-- General & Navigation -->
+    <string name="app_name">Recipe Journal</string>
+    <string name="bottom_nav_recipes_destination">Recipes</string>
+    <string name="bottom_nav_shopping_list_destination">Shopping List</string>
+
+    <!-- Common Actions & Buttons -->
+    <string name="btn_filter">Filter</string>
+    <string name="btn_add_recipe">Add Recipe</string>
+    <string name="btn_create_recipe">Create recipe</string>
+    <string name="btn_write_your_own">Write your own</string>
+    <string name="btn_import_from_web">Import from a link</string>
+    <string name="all">All</string>
+    <string name="clear_all">Clear All</string>
+    <string name="close_menu">Close menu</string>
+
+    <!-- Recipe List Screen -->
+    <string name="filter_sheet_title">Filter</string>
+    <string name="search_clear">Clear search</string>
+    <string name="search_placeholder">Search</string>
+    <string name="your_favourites">Your Favourites</string>
+    <string name="no_favourites_message">Tap the heart on the recipe to pin it here</string>
+    <string name="your_recipes">Your Recipes</string>
+    <string name="empty_recipe_list_state_message">Looks like nothing in here</string>
     <string name="recipes">Recipes</string>
-    <string name="shopping_list">Shopping List</string>
+    <string name="recipes_showing_count">Showing %2$d of %1$d</string>
+    <string name="no_recipes">No recipes yet</string>
+    <string name="no_recipes_supporting_text">Start your collection by creating your own recipe or importing one from a link</string>
+    <string name="loading_recipes">Preparing your recipes…</string>
+
+    <!-- Filters: Meal Categories -->
+    <string name="meal_category_breakfast">Breakfast</string>
+    <string name="meal_category_lunch">Lunch</string>
+    <string name="meal_category_dinner">Dinner</string>
+    <string name="meal_category_dessert">Dessert</string>
+    <string name="meal_category_snack">Snack</string>
+    <string name="meal_category_side">Side</string>
+
+    <!-- Filters: Cuisines -->
+    <string name="cuisine">Cuisine</string>
+    <string name="cuisine_italian">Italian</string>
+    <string name="cuisine_chinese">Chinese</string>
+    <string name="cuisine_japanese">Japanese</string>
+    <string name="cuisine_mexican">Mexican</string>
+    <string name="cuisine_indian">Indian</string>
+    <string name="cuisine_thai">Thai</string>
+    <string name="cuisine_french">French</string>
+    <string name="cuisine_spanish">Spanish</string>
+    <string name="cuisine_greek">Greek</string>
+    <string name="cuisine_turkish">Turkish</string>
+    <string name="cuisine_lithuanian">Lithuanian</string>
+    <string name="cuisine_eastern_european">Eastern European</string>
+    <string name="cuisine_american">American</string>
+
+    <!-- Filters: Cooking Time -->
+    <string name="cooking_time">Cooking time</string>
+    <string name="cooking_time_under_30_min">Under 30 min</string>
+    <string name="cooking_time_30_to_60_min">30 - 60 min</string>
+    <string name="cooking_time_1_to_2_h">1 - 2 hours</string>
+    <string name="cooking_time_over_2_h">Over 2 hours</string>
+
+    <!-- Filters: Source -->
+    <string name="source">Source</string>
+    <string name="source_imported">Imported</string>
+    <string name="source_created">Created by me</string>
+
+    <!-- Filters: Sort By -->
+    <string name="sort_by">Sort by</string>
+    <string name="sort_by_recent">Recently added</string>
+    <string name="sort_by_name">Name (A - Z)</string>
+    <string name="sort_by_total_time">Total time</string>
+
+    <!-- Plurals -->
+    <plurals name="show_recipes">
+        <item quantity="one">Show %1$d recipe</item>
+        <item quantity="other">Show %1$d recipes</item>
+    </plurals>
+
+    <!-- Recipe Card -->
+    <string name="favourite">Favourite</string>
+    <plurals name="recipe_card_minutes">
+        <item quantity="one">%1$d min</item>
+        <item quantity="other">%1$d min</item>
+    </plurals>
+    <plurals name="recipe_card_servings">
+        <item quantity="one">%1$d serving</item>
+        <item quantity="other">%1$d servings</item>
+    </plurals>
+    <plurals name="recipe_card_ingredients">
+        <item quantity="one">%1$d item</item>
+        <item quantity="other">%1$d items</item>
+    </plurals>
 </resources>

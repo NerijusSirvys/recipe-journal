@@ -37,8 +37,20 @@ android {
 }
 
 dependencies {
+    // DEPENDENCY INJECTION
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.android)
+    implementation(libs.koin.core)
+    implementation(libs.koin.compose)
+    implementation(libs.koin.compose.viewmodel)
+    implementation(libs.koin.compose.navigation)
+
     // NAVIGATION
     implementation(libs.androidx.navigation.compose)
+
+    // IMAGE LOADING AND CACHING
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
