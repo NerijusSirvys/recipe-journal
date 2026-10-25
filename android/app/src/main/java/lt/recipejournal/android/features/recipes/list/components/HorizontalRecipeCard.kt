@@ -1,8 +1,8 @@
-package lt.recipejournal.android.features.recipes.components
+package lt.recipejournal.android.features.recipes.list.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -12,10 +12,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -25,14 +23,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import lt.recipejournal.android.R
+import lt.recipejournal.android.features.recipes.components.FavouriteToggle
+import lt.recipejournal.android.features.recipes.components.RecipeMetaRow
+import lt.recipejournal.android.features.recipes.components.RecipeTagRow
 import lt.recipejournal.android.features.recipes.data.models.Cuisine
 import lt.recipejournal.android.features.recipes.data.models.MealCategory
 import lt.recipejournal.android.features.recipes.data.models.stringRes
@@ -66,65 +65,56 @@ fun HorizontalRecipeCard(
             containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
         )
     ) {
-        Row(
-            modifier = Modifier
-                .padding(16.dp)
-                .height(IntrinsicSize.Min),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            AsyncImage(
-                model = image,
-                contentDescription = null,
-                contentScale = ContentScale.FillWidth,
+        Box {
+            Row(
                 modifier = Modifier
-                    .fillMaxHeight()
-                    .aspectRatio(1f)
-                    .weight(.2f)
-                    .clip(MaterialTheme.shapes.small)
-            )
-
-            Column(
-                modifier = Modifier.weight(.8f)
+                    .padding(16.dp)
+                    .height(IntrinsicSize.Min),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.Top,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                AsyncImage(
+                    model = image,
+                    contentDescription = null,
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .aspectRatio(1f)
+                        .weight(.2f)
+                        .clip(MaterialTheme.shapes.small)
+                )
+
+                Column(
+                    modifier = Modifier.weight(.75f)
                 ) {
                     Text(
-                        modifier = Modifier.weight(1f),
                         text = name,
+                        modifier = Modifier.padding(end = 32.dp),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
 
-                    val icon = if (isFavourite) R.drawable.heart_filled
-                    else R.drawable.heart
-                    Icon(
-                        painter = painterResource(icon),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(18.dp)
-                            .clickable(onClick = onFavouriteClicked),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    RecipeMetaRow(
+                        cookingTimeInMinutes = cookingTimeInMinutes,
+                        servings = servings,
+                        ingredientCount = ingredientCount
+                    )
+
+                    Spacer(Modifier.height(10.dp))
+
+                    RecipeTagRow(
+                        mealCategory = mealCategory,
+                        cuisine = cuisine
                     )
                 }
-
-                RecipeMetaRow(
-                    cookingTimeInMinutes = cookingTimeInMinutes,
-                    servings = servings,
-                    ingredientCount = ingredientCount
-                )
-
-                Spacer(Modifier.height(10.dp))
-
-                RecipeTagRow(
-                    mealCategory = mealCategory,
-                    cuisine = cuisine
-                )
             }
+
+            FavouriteToggle(
+                modifier = Modifier.align(Alignment.TopEnd),
+                onClick = onFavouriteClicked,
+                isToggledOn = isFavourite
+            )
         }
     }
 }

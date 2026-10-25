@@ -22,18 +22,18 @@ import androidx.compose.ui.unit.dp
 import lt.recipejournal.android.R
 import lt.recipejournal.android.components.SearchField
 import lt.recipejournal.android.core.component_defaults.ScreenContentDefaults
-import lt.recipejournal.android.features.recipes.components.AddRecipeSpeedDialFab
+import lt.recipejournal.android.features.recipes.components.AddRecipeFab
 import lt.recipejournal.android.features.recipes.components.CategoryFilterChip
 import lt.recipejournal.android.features.recipes.components.EmptyStateMessage
 import lt.recipejournal.android.features.recipes.components.FilterButton
-import lt.recipejournal.android.features.recipes.components.HeroCard
-import lt.recipejournal.android.features.recipes.components.HorizontalRecipeCard
 import lt.recipejournal.android.features.recipes.components.TopBar
 import lt.recipejournal.android.features.recipes.data.models.Cuisine
 import lt.recipejournal.android.features.recipes.data.models.MealCategory
 import lt.recipejournal.android.features.recipes.data.models.RecipeSummary
 import lt.recipejournal.android.features.recipes.data.models.iconRes
 import lt.recipejournal.android.features.recipes.data.models.stringRes
+import lt.recipejournal.android.features.recipes.list.components.HeroCard
+import lt.recipejournal.android.features.recipes.list.components.HorizontalRecipeCard
 import lt.recipejournal.android.features.recipes.list.components.RecipeFilterSheet
 import lt.recipejournal.android.ui.theme.AndroidTheme
 import java.time.Instant
@@ -61,7 +61,7 @@ internal fun RecipeListContent(
             )
         },
         floatingActionButton = {
-            AddRecipeSpeedDialFab(
+            AddRecipeFab(
                 onWriteYourOwnClick = { onAction(RecipeListActions.CreateRecipe) },
                 onImportFromWebClick = { onAction(RecipeListActions.ImportFromWeb) }
             )

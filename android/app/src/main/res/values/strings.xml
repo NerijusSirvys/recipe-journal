@@ -13,6 +13,7 @@
     <string name="all">All</string>
     <string name="filter">Filter</string>
     <string name="clear_all">Clear All</string>
+    <string name="close_menu">close Menu</string>
 
     <!-- Recipe List Screen -->
     <string name="search_clear">Recipe list search clear</string>
@@ -77,6 +78,7 @@
     </plurals>
 
     <!-- Recipe Card -->
+    <string name="favourite">Favourite</string>
     <plurals name="recipe_card_minutes">
         <item quantity="one">%1$d min</item>
         <item quantity="other">%1$d min</item>

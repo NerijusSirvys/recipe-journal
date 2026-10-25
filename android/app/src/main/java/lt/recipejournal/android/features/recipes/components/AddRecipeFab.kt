@@ -43,7 +43,7 @@ import lt.recipejournal.android.R
 import lt.recipejournal.android.ui.theme.AndroidTheme
 
 @Composable
-fun AddRecipeSpeedDialFab(
+fun AddRecipeFab(
     modifier: Modifier = Modifier,
     initiallyExpanded: Boolean = false,
     onWriteYourOwnClick: () -> Unit,
@@ -71,8 +71,16 @@ fun AddRecipeSpeedDialFab(
         // Speed Dial Items Stacked Above Main FAB
         AnimatedVisibility(
             visible = expanded,
-            enter = fadeIn(tween(150)) + slideInVertically(tween(150)) { it / 2 } + scaleIn(tween(150)),
-            exit = fadeOut(tween(150)) + slideOutVertically(tween(150)) { it / 2 } + scaleOut(tween(150))
+            enter = fadeIn(tween(150)) + slideInVertically(tween(150)) { it / 2 } + scaleIn(
+                tween(
+                    150
+                )
+            ),
+            exit = fadeOut(tween(150)) + slideOutVertically(tween(150)) { it / 2 } + scaleOut(
+                tween(
+                    150
+                )
+            )
         ) {
             Column(
                 modifier = Modifier.padding(bottom = 72.dp),
@@ -123,7 +131,7 @@ fun AddRecipeSpeedDialFab(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.x),
-                            contentDescription = stringResource(R.string.clear_all),
+                            contentDescription = stringResource(R.string.close_menu),
                             tint = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier.size(24.dp)
                         )
@@ -204,7 +212,7 @@ private fun SpeedDialItem(
 
 @Composable
 @Preview
-private fun AddRecipeSpeedDialFabPreview() {
+private fun AddRecipeFabPreview() {
     AndroidTheme {
         Box(
             modifier = Modifier
@@ -212,7 +220,7 @@ private fun AddRecipeSpeedDialFabPreview() {
                 .padding(16.dp),
             contentAlignment = Alignment.BottomEnd
         ) {
-            AddRecipeSpeedDialFab(
+            AddRecipeFab(
                 onWriteYourOwnClick = {},
                 onImportFromWebClick = {}
             )
@@ -222,7 +230,7 @@ private fun AddRecipeSpeedDialFabPreview() {
 
 @Composable
 @Preview
-private fun AddRecipeSpeedDialFabExpandedPreview() {
+private fun AddRecipeFabExpandedPreview() {
     AndroidTheme {
         Box(
             modifier = Modifier
@@ -230,7 +238,7 @@ private fun AddRecipeSpeedDialFabExpandedPreview() {
                 .padding(16.dp),
             contentAlignment = Alignment.BottomEnd
         ) {
-            AddRecipeSpeedDialFab(
+            AddRecipeFab(
                 initiallyExpanded = true,
                 onWriteYourOwnClick = {},
                 onImportFromWebClick = {}
