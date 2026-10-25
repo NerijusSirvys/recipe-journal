@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -120,7 +120,7 @@ fun HorizontalRecipeCard(
 }
 
 
-@PreviewLightDark
+@Preview
 @Composable
 private fun Preview() {
     AndroidTheme {
@@ -132,8 +132,8 @@ private fun Preview() {
                 HorizontalRecipeCard(
                     name = "Recipe 1 ",
                     isFavourite = true,
-                    mealCategory = MealCategory.entries.random(),
-                    cuisine = stringResource(Cuisine.entries.random().stringRes),
+                    mealCategory = MealCategory.LUNCH,
+                    cuisine = stringResource(Cuisine.ITALIAN.stringRes),
                     servings = 3,
                     cookingTimeInMinutes = 25,
                     ingredientCount = 15,
@@ -145,8 +145,8 @@ private fun Preview() {
                 HorizontalRecipeCard(
                     name = "Supper very long recipe name about nothing and some more",
                     isFavourite = false,
-                    mealCategory = MealCategory.entries.random(),
-                    cuisine = stringResource(Cuisine.entries.random().stringRes),
+                    mealCategory = MealCategory.DINNER,
+                    cuisine = stringResource(Cuisine.GREEK.stringRes),
                     servings = 3,
                     cookingTimeInMinutes = 25,
                     ingredientCount = 15,

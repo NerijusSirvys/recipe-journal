@@ -18,7 +18,7 @@ fun RecipeListScreen(
     navController: NavController,
     reselectCount: () -> Int
 ) {
-    val vm = koinViewModel<RecipeListViewmodel>()
+    val vm = koinViewModel<RecipeListViewModel>()
     val state by vm.state.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
 

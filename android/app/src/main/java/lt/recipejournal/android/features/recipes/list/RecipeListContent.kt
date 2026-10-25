@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import lt.recipejournal.android.R
 import lt.recipejournal.android.components.SearchField
@@ -181,7 +181,7 @@ private fun MealCategoryChipRow(
             CategoryFilterChip(
                 selected = state.filterState.selectedCategories.isEmpty(),
                 onClick = { onAction(RecipeListActions.ToggleMealCategoryFilter(null)) },
-                label = R.string.meal_category_all,
+                label = R.string.all,
                 iconId = R.drawable.layout_grid
             )
         }
@@ -227,7 +227,7 @@ private fun CardCarousel(
     }
 }
 
-@PreviewLightDark
+@Preview
 @Composable
 private fun RecipeListScreenPreview() {
     AndroidTheme {
@@ -239,17 +239,17 @@ private fun RecipeListScreenPreview() {
                 totalRecipeCount = 5,
                 recipes = List(5) { index ->
                     RecipeSummary(
-                        id = UUID.randomUUID(),
+                        id = UUID.nameUUIDFromBytes("recipe-$index".toByteArray()),
                         name = "Recipe ${index + 1}",
                         isFavourite = false,
-                        mealCategory = MealCategory.entries.random(),
-                        cuisine = Cuisine.entries.random(),
+                        mealCategory = MealCategory.entries[index % MealCategory.entries.size],
+                        cuisine = Cuisine.entries[index % Cuisine.entries.size],
                         servings = 3,
                         cookTime = java.time.Duration.ofMinutes(25),
                         ingredientCount = 15,
                         image = "some",
                         createdOn = Instant.now(),
-                        source = Source.entries.random()
+                        source = Source.entries[index % Source.entries.size]
                     )
                 }
             )

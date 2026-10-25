@@ -47,7 +47,7 @@ fun RecipeFilterSheet(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = stringResource(R.string.filter),
+                text = stringResource(R.string.filter_sheet_title),
                 style = MaterialTheme.typography.titleLarge
             )
 

@@ -25,30 +25,30 @@ import lt.recipejournal.android.features.recipes.data.models.SortBy
 import lt.recipejournal.android.features.recipes.data.models.Source
 import java.util.UUID
 
-class RecipeListViewmodel(
+class RecipeListViewModel(
     private val recipeRepository: RecipeRepository
 ) : ViewModel() {
 
-    private val _filterState = MutableStateFlow(RecipeListFilterState())
-    private val _retryTrigger = MutableStateFlow(0)
-    private val _isFilterSheetVisible = MutableStateFlow(false)
+    private val filterState = MutableStateFlow(RecipeListFilterState())
+    private val retryTrigger = MutableStateFlow(0)
+    private val isFilterSheetVisible = MutableStateFlow(false)
 
     @OptIn(FlowPreview::class)
-    private val _debounceSearch = _filterState
+    private val debouncedSearch = filterState
         .map { it.searchInput }
         .distinctUntilChanged()
         .debounce(300)
 
-    private val _recipeQuery =
-        combine(_filterState, _debounceSearch) { filterState, debounceSearch ->
-            filterState.toRecipeQuery(
-                searchText = debounceSearch.trim().lowercase()
+    private val recipeQuery =
+        combine(filterState, debouncedSearch) { filters, search ->
+            filters.toRecipeQuery(
+                searchText = search.trim()
             )
         }.distinctUntilChanged()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val _libraryLoad: Flow<LibraryLoad> =
-        combine(_recipeQuery, _retryTrigger) { query, _ -> query }
+    private val libraryLoad: Flow<LibraryLoad> =
+        combine(recipeQuery, retryTrigger) { query, _ -> query }
             .flatMapLatest { query ->
                 combine(
                     recipeRepository.getRecipeSummaries(query),
@@ -64,10 +64,10 @@ class RecipeListViewmodel(
             }
 
     val state: StateFlow<RecipeListUIState> = combine(
-        _libraryLoad,
-        _filterState,
-        _isFilterSheetVisible
-    ) { load, filterState, isFilterSheetVisible ->
+        libraryLoad,
+        filterState,
+        isFilterSheetVisible
+    ) { load, filters, isSheetVisible ->
 
         when (load) {
             is LibraryLoad.Success -> {
@@ -77,8 +77,8 @@ class RecipeListViewmodel(
                     recipes = recipes,
                     favourites = favourites,
                     totalRecipeCount = load.totalCount,
-                    filterState = filterState,
-                    showFilterBottomSheet = isFilterSheetVisible,
+                    filterState = filters,
+                    showFilterBottomSheet = isSheetVisible,
                     availableCuisineFilters = load.cuisineFilters.toSet(),
                     availableSourceFilters = Source.entries.toSet(),
                     availableSortByFilter = SortBy.entries.toSet(),
@@ -88,7 +88,7 @@ class RecipeListViewmodel(
 
             LibraryLoad.Failure -> RecipeListUIState(
                 contentState = ContentState.ERROR,
-                filterState = filterState
+                filterState = filters
             )
 
             LibraryLoad.Empty -> RecipeListUIState(
@@ -102,16 +102,16 @@ class RecipeListViewmodel(
     )
 
 
-    fun onAction(actions: RecipeListActions) {
-        when (actions) {
-            is RecipeListActions.SearchUpdated -> updateSearchTerm(actions.searchTerm)
-            is RecipeListActions.ToggleMealCategoryFilter -> updateMealCategoryFilters(actions.category)
-            is RecipeListActions.ToggleFavourite -> toggleFavourite(actions.recipeId)
-            is RecipeListActions.ShowFilterBottomSheet -> showFilterBottomSheet(actions.show)
-            is RecipeListActions.ToggleCuisineFilter -> toggleCuisineFilter(actions.cuisine)
-            is RecipeListActions.ToggleCookingTimeFilter -> toggleCookingTimeFilter(actions.cookingTime)
-            is RecipeListActions.ToggleSourceFilter -> toggleSourceFilter(actions.source)
-            is RecipeListActions.ToggleSortByFilter -> toggleSortByFilter(actions.sortBy)
+    fun onAction(action: RecipeListActions) {
+        when (action) {
+            is RecipeListActions.SearchUpdated -> updateSearchTerm(action.searchTerm)
+            is RecipeListActions.ToggleMealCategoryFilter -> updateMealCategoryFilters(action.category)
+            is RecipeListActions.ToggleFavourite -> toggleFavourite(action.recipeId)
+            is RecipeListActions.ShowFilterBottomSheet -> showFilterBottomSheet(action.show)
+            is RecipeListActions.ToggleCuisineFilter -> toggleCuisineFilter(action.cuisine)
+            is RecipeListActions.ToggleCookingTimeFilter -> toggleCookingTimeFilter(action.cookingTime)
+            is RecipeListActions.ToggleSourceFilter -> toggleSourceFilter(action.source)
+            is RecipeListActions.ToggleSortByFilter -> toggleSortByFilter(action.sortBy)
             RecipeListActions.ShowFilteredRecipes -> showFilteredRecipes()
             RecipeListActions.ResetFilters -> resetFilters()
             RecipeListActions.CreateRecipe -> {}
@@ -120,7 +120,7 @@ class RecipeListViewmodel(
     }
 
     private fun resetFilters() {
-        _filterState.update {
+        filterState.update {
             it.copy(
                 selectedCuisines = emptySet(),
                 selectedCookingTimeFilters = emptySet(),
@@ -132,21 +132,21 @@ class RecipeListViewmodel(
     }
 
     private fun showFilteredRecipes() {
-        _isFilterSheetVisible.update { false }
+        isFilterSheetVisible.update { false }
     }
 
     private fun toggleSortByFilter(sortBy: SortBy) {
-        _filterState.update {
+        filterState.update {
             it.copy(sortBy = sortBy)
         }
     }
 
     private fun toggleCuisineFilter(cuisine: Cuisine?) {
-        _filterState.update { it.copy(selectedCuisines = it.selectedCuisines.toggle(cuisine)) }
+        filterState.update { it.copy(selectedCuisines = it.selectedCuisines.toggle(cuisine)) }
     }
 
     private fun toggleCookingTimeFilter(cookingTime: CookingTime?) {
-        _filterState.update {
+        filterState.update {
             it.copy(
                 selectedCookingTimeFilters = it.selectedCookingTimeFilters.toggle(
                     cookingTime
@@ -156,7 +156,7 @@ class RecipeListViewmodel(
     }
 
     private fun toggleSourceFilter(source: Source?) {
-        _filterState.update {
+        filterState.update {
             it.copy(
                 selectedSourceFilters = it.selectedSourceFilters.toggle(source)
             )
@@ -164,7 +164,7 @@ class RecipeListViewmodel(
     }
 
     private fun updateMealCategoryFilters(category: MealCategory?) {
-        _filterState.update {
+        filterState.update {
             it.copy(
                 selectedCategories = it.selectedCategories.toggle(category)
             )
@@ -172,7 +172,7 @@ class RecipeListViewmodel(
     }
 
     private fun showFilterBottomSheet(show: Boolean) {
-        _isFilterSheetVisible.update { show }
+        isFilterSheetVisible.update { show }
     }
 
     private fun toggleFavourite(recipeId: UUID) {
@@ -180,7 +180,7 @@ class RecipeListViewmodel(
     }
 
     private fun updateSearchTerm(value: String) {
-        _filterState.update {
+        filterState.update {
             it.copy(searchInput = value)
         }
     }

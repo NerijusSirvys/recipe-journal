@@ -24,7 +24,7 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import lt.recipejournal.android.ui.theme.AndroidTheme
@@ -106,7 +106,7 @@ fun AppTextField(
     )
 }
 
-@PreviewLightDark
+@Preview
 @Composable
 private fun Empty() {
     AndroidTheme {
@@ -120,7 +120,7 @@ private fun Empty() {
     }
 }
 
-@PreviewLightDark
+@Preview
 @Composable
 private fun WithText() {
     AndroidTheme {

@@ -26,7 +26,7 @@ fun TopBar(
                 Text(text = text)
                 if(totalCount > 0){
                     Text(
-                        text = stringResource(R.string.recipes_found_and_showed, totalCount, showedCount),
+                        text = stringResource(R.string.recipes_showing_count, totalCount, showedCount),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
