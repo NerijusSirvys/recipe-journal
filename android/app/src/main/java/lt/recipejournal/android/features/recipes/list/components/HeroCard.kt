@@ -9,25 +9,29 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import lt.recipejournal.android.features.recipes.components.FavouriteToggle
+import lt.recipejournal.android.R
 import lt.recipejournal.android.features.recipes.components.RecipeMetaRow
 import lt.recipejournal.android.features.recipes.components.RecipeTagRow
 import lt.recipejournal.android.features.recipes.data.models.Cuisine
@@ -41,7 +45,7 @@ fun HeroCard(
     name: String,
     mealCategory: MealCategory,
     isFavourite: Boolean,
-    onFavouriteClicked: () -> Unit,
+    onFavouriteChange: (Boolean) -> Unit,
     onClick: () -> Unit,
     cuisine: String,
     servings: Int,
@@ -63,30 +67,32 @@ fun HeroCard(
             containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
         )
     ) {
-        Box(
-            modifier = Modifier.padding(
-                start = 13.dp,
-                top = 13.dp,
-            )
-        ) {
-            Column(
-                modifier = Modifier.padding(
-                    end = 13.dp,
-                    bottom = 13.dp
-                )
-            ) {
+        Column {
+            Box {
                 AsyncImage(
                     model = image,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(16f / 5f)
-                        .clip(MaterialTheme.shapes.small)
+                        .aspectRatio(16f / 7f)
                 )
 
-                Spacer(Modifier.height(10.dp))
+                HeroFavouriteButton(
+                    isFavourite = isFavourite,
+                    onCheckedChange = onFavouriteChange,
+                    modifier = Modifier.align(Alignment.TopEnd)
+                )
+            }
 
+            Column(
+                modifier = Modifier.padding(
+                    start = 13.dp,
+                    top = 10.dp,
+                    end = 13.dp,
+                    bottom = 13.dp
+                )
+            ) {
                 Text(
                     text = name,
                     style = MaterialTheme.typography.titleMedium,
@@ -108,12 +114,37 @@ fun HeroCard(
                     cuisine = cuisine
                 )
             }
+        }
+    }
+}
 
-            FavouriteToggle(
-                onClick = onFavouriteClicked,
-                isToggledOn = isFavourite,
-                modifier = Modifier.align(Alignment.BottomEnd)
-            )
+@Composable
+private fun HeroFavouriteButton(
+    isFavourite: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val icon = if (isFavourite) R.drawable.heart_filled else R.drawable.heart
+
+    IconToggleButton(
+        checked = isFavourite,
+        onCheckedChange = onCheckedChange,
+        modifier = modifier
+    ) {
+        Surface(
+            shape = CircleShape,
+            color = MaterialTheme.colorScheme.surfaceContainerLowest,
+            shadowElevation = 2.dp,
+            modifier = Modifier.size(36.dp)
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Icon(
+                    painter = painterResource(icon),
+                    contentDescription = stringResource(R.string.favourite),
+                    modifier = Modifier.size(18.dp),
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
         }
     }
 }
@@ -137,7 +168,7 @@ private fun Preview() {
                     cookingTimeInMinutes = 25,
                     ingredientCount = 15,
                     image = "some uri",
-                    onFavouriteClicked = {},
+                    onFavouriteChange = {},
                     onClick = {}
                 )
 
@@ -150,7 +181,7 @@ private fun Preview() {
                     cookingTimeInMinutes = 25,
                     ingredientCount = 15,
                     image = "some uri",
-                    onFavouriteClicked = {},
+                    onFavouriteChange = {},
                     onClick = {}
                 )
             }

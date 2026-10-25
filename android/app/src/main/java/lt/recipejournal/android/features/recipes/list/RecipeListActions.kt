@@ -13,8 +13,8 @@ sealed interface RecipeListActions {
     data class ToggleCuisineFilter(val cuisine: Cuisine?) : RecipeListActions
     data class ToggleCookingTimeFilter(val cookingTime: CookingTime?) : RecipeListActions
     data class ToggleSourceFilter(val source: Source?) : RecipeListActions
-    data class ToggleSortByFilter(val sortBy: SortBy) : RecipeListActions
-    data class ToggleFavourite(val recipeId: UUID) : RecipeListActions
+    data class SelectSortBy(val sortBy: SortBy) : RecipeListActions
+    data class SetFavourite(val recipeId: UUID, val isFavourite: Boolean) : RecipeListActions
     data class ShowFilterBottomSheet(val show: Boolean) : RecipeListActions
     data object ShowFilteredRecipes : RecipeListActions
     data object ResetFilters : RecipeListActions

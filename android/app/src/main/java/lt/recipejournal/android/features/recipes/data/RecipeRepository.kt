@@ -20,8 +20,22 @@ import java.util.UUID
 
 class RecipeRepository {
 
+    // Unsplash food photos in different colors, to test how icons and text over a photo read.
+    // `w=600` asks Unsplash's image CDN for a resized copy instead of the multi-MB original.
+    private val sampleImages = listOf(
+        "1484723091739-30a097e8f929", // French toast, dark plate
+        "1782112691766-1772366fcedc", // steak on rice, white dish
+        "1745793652792-dd1624661142", // salad in a glass bowl, bright
+        "1458253756247-1e4ed949191b", // chocolate cake, black surface
+        "1611309454921-16cef3438ee0", // burger, dark
+        "1622790176973-2c27952176fe", // vegetable bowl, deep green
+        "1597393353365-9d4366392fe9", // pasta, red
+        "1789992252185-3faaeea5c045", // yellow dal, white table
+        "1669472546359-418a98630699", // plate of food, mid-gray
+    ).map { "https://images.unsplash.com/photo-$it?w=600&q=80&auto=format&fit=crop" }
+
     private val recipesFlow = MutableStateFlow(
-        List(5) { index ->
+        List(sampleImages.size) { index ->
             RecipeSummary(
                 id = UUID.randomUUID(),
                 name = "Recipe ${index + 1}",
@@ -31,7 +45,7 @@ class RecipeRepository {
                 servings = 1.rangeTo(5).random(),
                 cookTime = Duration.ofMinutes((15..150).random().toLong()),
                 ingredientCount = 3.rangeTo(25).random(),
-                image = "https://images.unsplash.com/photo-1484723091739-30a097e8f929",
+                image = sampleImages[index],
                 createdOn = Instant.now().minusSeconds((1..300).random().toLong()),
                 source = Source.entries.random()
             )
@@ -81,9 +95,9 @@ class RecipeRepository {
     }
 
 
-    fun setFavourite(id: UUID) {
+    fun setFavourite(id: UUID, isFavourite: Boolean) {
         recipesFlow.update { list ->
-            list.map { if (it.id == id) it.copy(isFavourite = !it.isFavourite) else it }
+            list.map { if (it.id == id) it.copy(isFavourite = isFavourite) else it }
         }
     }
 }

@@ -117,7 +117,7 @@ fun RecipeFilterSheet(
                 title = R.string.sort_by,
                 labelRes = { it.stringRes },
                 onFilterClick = { sortBy ->
-                    sortBy?.let { onAction(RecipeListActions.ToggleSortByFilter(it)) }
+                    sortBy?.let { onAction(RecipeListActions.SelectSortBy(it)) }
                 }
             )
 

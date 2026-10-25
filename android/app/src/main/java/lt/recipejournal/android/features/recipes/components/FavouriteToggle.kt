@@ -14,15 +14,15 @@ import lt.recipejournal.android.R
 @Composable
 fun FavouriteToggle(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    isToggledOn: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    checked: Boolean,
 ) {
     IconToggleButton(
-        onCheckedChange = { onClick() },
-        checked = isToggledOn,
+        onCheckedChange = onCheckedChange,
+        checked = checked,
         modifier = modifier,
     ) {
-        val icon = if (isToggledOn) R.drawable.heart_filled
+        val icon = if (checked) R.drawable.heart_filled
         else R.drawable.heart
 
         Icon(

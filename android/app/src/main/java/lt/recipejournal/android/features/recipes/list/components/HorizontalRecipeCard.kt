@@ -7,11 +7,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -20,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -43,7 +41,7 @@ fun HorizontalRecipeCard(
     name: String,
     mealCategory: MealCategory,
     isFavourite: Boolean,
-    onFavouriteClicked: () -> Unit,
+    onFavouriteChange: (Boolean) -> Unit,
     onClick: () -> Unit,
     cuisine: String,
     servings: Int,
@@ -67,24 +65,25 @@ fun HorizontalRecipeCard(
     ) {
         Box {
             Row(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .height(IntrinsicSize.Min),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                modifier = Modifier.height(IntrinsicSize.Min)
             ) {
-                AsyncImage(
-                    model = image,
-                    contentDescription = null,
-                    contentScale = ContentScale.FillWidth,
+                Box(
                     modifier = Modifier
+                        .width(104.dp)
                         .fillMaxHeight()
-                        .aspectRatio(1f)
-                        .weight(.2f)
-                        .clip(MaterialTheme.shapes.small)
-                )
+                ) {
+                    AsyncImage(
+                        model = image,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.matchParentSize()
+                    )
+                }
 
                 Column(
-                    modifier = Modifier.weight(.75f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(16.dp)
                 ) {
                     Text(
                         text = name,
@@ -112,8 +111,8 @@ fun HorizontalRecipeCard(
 
             FavouriteToggle(
                 modifier = Modifier.align(Alignment.TopEnd),
-                onClick = onFavouriteClicked,
-                isToggledOn = isFavourite
+                onCheckedChange = onFavouriteChange,
+                checked = isFavourite
             )
         }
     }
@@ -138,7 +137,7 @@ private fun Preview() {
                     cookingTimeInMinutes = 25,
                     ingredientCount = 15,
                     image = "some uri",
-                    onFavouriteClicked = {},
+                    onFavouriteChange = {},
                     onClick = {}
                 )
 
@@ -151,7 +150,7 @@ private fun Preview() {
                     cookingTimeInMinutes = 25,
                     ingredientCount = 15,
                     image = "some uri",
-                    onFavouriteClicked = {},
+                    onFavouriteChange = {},
                     onClick = {}
                 )
             }

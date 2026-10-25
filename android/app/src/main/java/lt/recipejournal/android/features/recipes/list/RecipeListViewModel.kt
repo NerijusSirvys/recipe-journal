@@ -105,13 +105,13 @@ class RecipeListViewModel(
     fun onAction(action: RecipeListActions) {
         when (action) {
             is RecipeListActions.SearchUpdated -> updateSearchTerm(action.searchTerm)
-            is RecipeListActions.ToggleMealCategoryFilter -> updateMealCategoryFilters(action.category)
-            is RecipeListActions.ToggleFavourite -> toggleFavourite(action.recipeId)
+            is RecipeListActions.ToggleMealCategoryFilter -> toggleMealCategoryFilter(action.category)
+            is RecipeListActions.SetFavourite -> setFavourite(action.recipeId, action.isFavourite)
             is RecipeListActions.ShowFilterBottomSheet -> showFilterBottomSheet(action.show)
             is RecipeListActions.ToggleCuisineFilter -> toggleCuisineFilter(action.cuisine)
             is RecipeListActions.ToggleCookingTimeFilter -> toggleCookingTimeFilter(action.cookingTime)
             is RecipeListActions.ToggleSourceFilter -> toggleSourceFilter(action.source)
-            is RecipeListActions.ToggleSortByFilter -> toggleSortByFilter(action.sortBy)
+            is RecipeListActions.SelectSortBy -> selectSortBy(action.sortBy)
             RecipeListActions.ShowFilteredRecipes -> showFilteredRecipes()
             RecipeListActions.ResetFilters -> resetFilters()
             RecipeListActions.CreateRecipe -> {}
@@ -135,7 +135,7 @@ class RecipeListViewModel(
         isFilterSheetVisible.update { false }
     }
 
-    private fun toggleSortByFilter(sortBy: SortBy) {
+    private fun selectSortBy(sortBy: SortBy) {
         filterState.update {
             it.copy(sortBy = sortBy)
         }
@@ -163,7 +163,7 @@ class RecipeListViewModel(
         }
     }
 
-    private fun updateMealCategoryFilters(category: MealCategory?) {
+    private fun toggleMealCategoryFilter(category: MealCategory?) {
         filterState.update {
             it.copy(
                 selectedCategories = it.selectedCategories.toggle(category)
@@ -175,8 +175,8 @@ class RecipeListViewModel(
         isFilterSheetVisible.update { show }
     }
 
-    private fun toggleFavourite(recipeId: UUID) {
-        recipeRepository.setFavourite(recipeId)
+    private fun setFavourite(recipeId: UUID, isFavourite: Boolean) {
+        recipeRepository.setFavourite(recipeId, isFavourite)
     }
 
     private fun updateSearchTerm(value: String) {

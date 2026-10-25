@@ -141,7 +141,9 @@ internal fun RecipeListContent(
                         cookingTimeInMinutes = recipe.cookTime.toMinutes().toInt(),
                         ingredientCount = recipe.ingredientCount,
                         image = recipe.image,
-                        onFavouriteClicked = { onAction(RecipeListActions.ToggleFavourite(recipe.id)) },
+                        onFavouriteChange = { isFavourite ->
+                            onAction(RecipeListActions.SetFavourite(recipe.id, isFavourite))
+                        },
                         onClick = {}
                     )
                 }
@@ -220,7 +222,9 @@ private fun CardCarousel(
                 cookingTimeInMinutes = recipe.cookTime.toMinutes().toInt(),
                 ingredientCount = recipe.ingredientCount,
                 image = recipe.image,
-                onFavouriteClicked = { onAction(RecipeListActions.ToggleFavourite(recipe.id)) },
+                onFavouriteChange = { isFavourite ->
+                    onAction(RecipeListActions.SetFavourite(recipe.id, isFavourite))
+                },
                 onClick = {}
             )
         }
