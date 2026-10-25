@@ -30,6 +30,7 @@ import lt.recipejournal.android.features.recipes.components.TopBar
 import lt.recipejournal.android.features.recipes.data.models.Cuisine
 import lt.recipejournal.android.features.recipes.data.models.MealCategory
 import lt.recipejournal.android.features.recipes.data.models.RecipeSummary
+import lt.recipejournal.android.features.recipes.data.models.Source
 import lt.recipejournal.android.features.recipes.data.models.iconRes
 import lt.recipejournal.android.features.recipes.data.models.stringRes
 import lt.recipejournal.android.features.recipes.list.components.HeroCard
@@ -247,7 +248,8 @@ private fun RecipeListScreenPreview() {
                         cookTime = java.time.Duration.ofMinutes(25),
                         ingredientCount = 15,
                         image = "some",
-                        createdOn = Instant.now()
+                        createdOn = Instant.now(),
+                        source = Source.entries.random()
                     )
                 }
             )

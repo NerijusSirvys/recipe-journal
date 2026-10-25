@@ -156,11 +156,19 @@ class RecipeListViewmodel(
     }
 
     private fun toggleSourceFilter(source: Source?) {
-        _filterState.update { it.copy(selectedSourceFilters = it.selectedSourceFilters.toggle(source)) }
+        _filterState.update {
+            it.copy(
+                selectedSourceFilters = it.selectedSourceFilters.toggle(source)
+            )
+        }
     }
 
     private fun updateMealCategoryFilters(category: MealCategory?) {
-        _filterState.update { it.copy(selectedCategories = it.selectedCategories.toggle(category)) }
+        _filterState.update {
+            it.copy(
+                selectedCategories = it.selectedCategories.toggle(category)
+            )
+        }
     }
 
     private fun showFilterBottomSheet(show: Boolean) {

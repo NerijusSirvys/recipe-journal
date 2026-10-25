@@ -14,5 +14,6 @@ data class RecipeSummary(
     val servings: Int,
     val cookTime: Duration,
     val ingredientCount: Int,
-    val createdOn: Instant
+    val createdOn: Instant,
+    val source: Source
 )

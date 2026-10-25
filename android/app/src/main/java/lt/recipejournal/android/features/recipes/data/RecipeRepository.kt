@@ -12,6 +12,7 @@ import lt.recipejournal.android.features.recipes.data.models.MealCategory
 import lt.recipejournal.android.features.recipes.data.models.RecipeQuery
 import lt.recipejournal.android.features.recipes.data.models.RecipeSummary
 import lt.recipejournal.android.features.recipes.data.models.SortBy
+import lt.recipejournal.android.features.recipes.data.models.Source
 import lt.recipejournal.android.features.recipes.data.models.matches
 import java.time.Duration
 import java.time.Instant
@@ -31,7 +32,8 @@ class RecipeRepository {
                 cookTime = Duration.ofMinutes((15..150).random().toLong()),
                 ingredientCount = 3.rangeTo(25).random(),
                 image = "https://images.unsplash.com/photo-1484723091739-30a097e8f929",
-                createdOn = Instant.now().minusSeconds((1..300).random().toLong())
+                createdOn = Instant.now().minusSeconds((1..300).random().toLong()),
+                source = Source.entries.random()
             )
         }
     )
@@ -53,7 +55,12 @@ class RecipeRepository {
                             cookingTime.matches(it.cookTime)
                         }
 
-                matchesSearch && matchesCategory && matchesCuisine && matchesCookingTime
+                val matchSource = query.sources.isEmpty() ||
+                        query.sources.any { source ->
+                            source == it.source
+                        }
+
+                matchesSearch && matchesCategory && matchesCuisine && matchesCookingTime && matchSource
             }
 
             when (query.sortBy) {

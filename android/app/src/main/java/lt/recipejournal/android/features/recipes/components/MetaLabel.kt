@@ -28,12 +28,12 @@ fun MetaLabel(
         Icon(
             painterResource(icon),
             contentDescription = null,
-            modifier = Modifier.size(9.dp),
+            modifier = Modifier.size(10.dp),
             tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
             text = text,
-            style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp),
+            style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
