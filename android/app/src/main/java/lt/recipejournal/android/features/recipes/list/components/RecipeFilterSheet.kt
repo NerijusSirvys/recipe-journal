@@ -1,10 +1,10 @@
 package lt.recipejournal.android.features.recipes.list.components
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +15,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,26 +44,27 @@ fun RecipeFilterSheet(
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Bottom
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = stringResource(R.string.filter),
                 style = MaterialTheme.typography.titleLarge
             )
-            Text(
-                text = stringResource(R.string.clear_all),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable(
-                    enabled = true,
-                    onClick = {
-                        onAction(RecipeListActions.ResetFilters)
-                    }
+
+            TextButton(
+                onClick = { onAction(RecipeListActions.ResetFilters) },
+                // Keeps the text close to the right edge; the touch target stays 48dp tall
+                contentPadding = PaddingValues(horizontal = 4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.clear_all),
+                    style = MaterialTheme.typography.bodySmall
                 )
-            )
+            }
         }
 
-        Spacer(Modifier.height(15.dp))
+        // The header is now 48dp tall (button touch target), so less space is needed below it
+        Spacer(Modifier.height(5.dp))
 
         Column(
             verticalArrangement = Arrangement.spacedBy(10.dp)
