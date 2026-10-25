@@ -13,7 +13,7 @@
     <string name="all">All</string>
     <string name="filter">Filter</string>
     <string name="clear_all">Clear All</string>
-    <string name="close_menu">close Menu</string>
+    <string name="close_menu">Close menu</string>
 
     <!-- Recipe List Screen -->
     <string name="search_clear">Recipe list search clear</string>
